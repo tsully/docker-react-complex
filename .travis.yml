@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - dockerfile
+before_install:
+  - docker build -t tsully/react-test -f .client/Dockerfile.dev
+
+script:
+  - docker run tsully/react-test npm test -- --coverage
+
+after_success:
+  # build production images
+  - docker build -t tsully/multi-client ./client
+  - docker build -t tsully/multi-nginx ./nginx
+  - docker build -t tsully/multi-server ./server
+  - docker build -t tsully/multi-worker ./worker
+  # log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push docker images to docker hub
+  - docker push tsully/multi-client
+  - docker push tsully/multi-nginx
+  - docker push tsully/multi-server
+  - docker push tsully/multi-worker
