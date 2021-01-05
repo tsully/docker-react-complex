@@ -9,14 +9,14 @@ script:
 
 after_success:
   # build production images
-  - docker build -t tsully/multi-client ./client
-  - docker build -t tsully/multi-nginx ./nginx
-  - docker build -t tsully/multi-server ./server
-  - docker build -t tsully/multi-worker ./worker
+  - docker build -t tysullberg/multi-client ./client
+  - docker build -t tysullberg/multi-nginx ./nginx
+  - docker build -t tysullberg/multi-server ./server
+  - docker build -t tysullberg/multi-worker ./worker
   # log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # push docker images to docker hub
-  - docker push tsully/multi-client
-  - docker push tsully/multi-nginx
-  - docker push tsully/multi-server
-  - docker push tsully/multi-worker
+  - docker push tysullberg/multi-client
+  - docker push tysullberg/multi-nginx
+  - docker push tysullberg/multi-server
+  - docker push tysullberg/multi-worker
